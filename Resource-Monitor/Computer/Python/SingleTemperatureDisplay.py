@@ -1,15 +1,15 @@
 import MetricDisplay
-from Measurements import TemperatureUnit as tempUnit
+from Measurements import TemperatureMetric, UsageMetric, TemperatureUnit
 
 class TemperatureDisplay(MetricDisplay.Display):
     
-    def __init__(self, performanceMetric, temperatureUnit=tempUnit.CELSIUS):
+    def __init__(self, performanceMetric, temperatureUnit=TemperatureUnit.CELSIUS):
         """initializes an TemperatureDisplay instance
         argument performanceMetric: a Metric enum to use. Must be a temperature type.
         argument temperatureUnit: the temperature unit to use. Defaults to Celsius, but can be Fahrenheit. """
 
         super().__init__(self, performanceMetric)
-        self.temperatureUnit = temperatureUnit
+        self._temperatureUnit = temperatureUnit
 
 
     #getters and setters
@@ -17,14 +17,14 @@ class TemperatureDisplay(MetricDisplay.Display):
         """returns the performance metric being monitored by the Display object
         return: Metric enum"""
 
-        return self.performanceMetric
+        return self._performanceMetric
 
     def setPerformanceMetric(self, performanceMetric):
         """sets the performance metric to monitor"""
 
         #throw ValueError if not a temperature
-        if performanceMetric.value >= 100 and performanceMetric.value < 200:
-            self.performanceMetric = performanceMetric
+        if isinstance(performanceMetric, TemperatureMetric):
+            self._performanceMetric = performanceMetric
         else:
             raise ValueError("Metric arg not a temperature. performanceMetric.value must be >= 100 and < 200")
 
@@ -32,9 +32,14 @@ class TemperatureDisplay(MetricDisplay.Display):
         """returns the temperature unit to use
         return: a TemperatureUnit metric"""
 
-        return self.temperatureUnit
+        return self._temperatureUnit
     
     def setTemperatureUnit(self, temperatureUnit):
         """sets the temperature unit to use"""
+        if isinstance(temperatureUnit, temperatureUnit):
+            self._temperatureUnit = temperatureUnit
+        else:
+            raise ValueError("Passed enum MUST be a TemperatureUnit")
 
-        self.temperatureUnit = temperatureUnit
+    temperatureUnit = property(getTemperatureUnit, setTemperatureUnit)
+    performanceMetric = property(getPerformanceMetric, setPerformanceMetric)

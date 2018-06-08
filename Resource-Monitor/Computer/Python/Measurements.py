@@ -1,25 +1,24 @@
 from enum import Enum, auto, unique
 
 @unique
-class Metric(Enum):
-    """This enum determines which performance metric for each instance of a Display to use"""
+class TemperatureMetric(Enum):
+    """This enum is used for Temperature metrics"""
+    CPU_PACKAGE_TEMPERATURE = auto()
+    CPU_CORE_AVERAGE_TEMPERATURE = auto()
+    GPU_TEMPERATURE = auto()
+    MOTHERBOARD_TEMPERATURE = auto()
     
-    #TODO allow for temperature measurements to be differentiated
-    #temperatures: 1xx
-    #usage: 2xx
-    #others: 9xx
+@unique
+class UsageMetric(Enum):
+    """This enum is used for Usage metrics"""
+    CPU_USAGE_PERCENT = auto()
+    GPU_USAGE_PERCENT = auto()
+    RAM_USAGE_PERCENT = auto()
+    NETWORK_THROUGHPUT = auto()
+    DISK_USAGE_PERCENT = auto()
 
-    CPU_PACKAGE_TEMPERATURE = 100
-    CPU_CORE_AVERAGE_TEMPERATURE = 101
-    CPU_USAGE_PERCENT = 200
-    GPU_USAGE_PERCENT = 201
-    GPU_TEMPERATURE = 102
-    RAM_USAGE_PERCENT = 202
-    NETWORK_THROUGHPUT = 203
-    DISK_USAGE_PERCENT = 204
-
-    MOTHERBOARD_TEMPERATURE = 103
-
+@unique
 class TemperatureUnit(Enum):
+    """This enum is used for determining the temperature unit (Fahrenheit or Celsius) to use"""
     CELSIUS = auto()
     FAHRENHEIT = auto()

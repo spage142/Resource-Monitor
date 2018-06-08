@@ -4,11 +4,17 @@ import subprocess, psutil
 runOHW = False
 doUnitTest = True
 
+#OHW_Path should be changed to the path of OpenHardwareMonitor.exe on the system
+#It may be different on different computers
+#The string should have an r flag to disregard any escape sequences
+OHW_Path = r"E:\OpenHWMonitor\OpenHardwareMonitor\OpenHardwareMonitor.exe"
+
 def start():
     """starts the project in accordance with config variables"""
     if runOHW:
         startOHW()
-    elif doUnitTest:
+
+    if doUnitTest:
         unitTest()
     
 
@@ -22,8 +28,7 @@ def isOHWRunning():
 
 def startOHW():
     """starts Open Hardware Monitor"""
-    path = r"D:\Open Hardware Monitor\OpenHardwareMonitor\OpenHardwareMonitor.exe"
-    subprocess.call([path])
+    subprocess.call(["powershell.exe", "Start-Process " + OHW_Path + " -Verb runAs"])
 
 def printProcesses():
     """prints processes currently running"""
@@ -33,6 +38,9 @@ def printProcesses():
 
 def unitTest():
     """method for testing new methods"""
+
+    startOHW()
+
     if isOHWRunning():
         print("OHW is running")
     else:
